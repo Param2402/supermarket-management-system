@@ -2,7 +2,7 @@ using System;
 
 namespace SupplyChainManagementSystem
 {
-    public class FurnitureItem
+    public class product
     {
         public int ItemID { get; set; }
         public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace SupplyChainManagementSystem
         public int QuantitySold { get; set; } = 0;
         public int QuantityRestocked { get; set; } = 0;
 
-        public FurnitureItem(int id, string name, string category, double price, int stock, string zone)
+        public product(int id, string name, string category, double price, int stock, string zone)
         {
             ItemID = id;
             Name = name;
