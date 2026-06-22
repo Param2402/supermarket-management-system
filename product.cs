@@ -9,9 +9,11 @@ namespace SupplyChainManagementSystem
         public string Category { get; set; }
         public double Price { get; set; }
         public int StockLevel { get; set; }
-        public string WarehouseZone { get; set; }
         public int QuantitySold { get; set; } = 0;
         public int QuantityRestocked { get; set; } = 0;
+        public string Barcode { get; set; }
+        public string SupplierName { get; set; }
+        public DateTime ExpiryDate { get; set; }
 
         public product(int id, string name, string category, double price, int stock, string zone)
         {
