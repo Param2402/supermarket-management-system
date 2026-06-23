@@ -1,6 +1,6 @@
 using System;
 
-namespace SupplyChainManagementSystem
+namespace Supermarketmanagementsystem
 {
     public class CustomBST
     {
@@ -10,19 +10,19 @@ namespace SupplyChainManagementSystem
 
         // INSERT 
         // Time Complexity: O(h) - O(log n) average, O(n) worst case
-        public void Insert(FurnitureItem newItem)
+        public void Insert( Product newItem)
         {
             root = InsertRecursive(root, newItem);
         }
 
-        private BSTNode InsertRecursive(BSTNode current, FurnitureItem newItem)
+        private BSTNode InsertRecursive(BSTNode current, Product newItem)
         {
             if (current == null)
                 return new BSTNode(newItem);
 
-            if (newItem.ItemID < current.Data.ItemID)
+            if (newItem.ProductID < current.Data.ProductID)
                 current.Left = InsertRecursive(current.Left, newItem);
-            else if (newItem.ItemID > current.Data.ItemID)
+            else if (newItem.ProductID > current.Data.ProductID)
                 current.Right = InsertRecursive(current.Right, newItem);
             // Duplicate IDs are ignored
 
@@ -31,16 +31,16 @@ namespace SupplyChainManagementSystem
 
         // SEARCH 
         // Time Complexity: O(h) - O(log n) average, O(n) worst case
-        public FurnitureItem Search(int targetID)
+        public Product Search(int targetID)
         {
             return SearchRecursive(root, targetID);
         }
 
-        private FurnitureItem SearchRecursive(BSTNode current, int targetID)
+        private Product SearchRecursive(BSTNode current, int targetID)
         {
             if (current == null) return null;
-            if (current.Data.ItemID == targetID) return current.Data;
-            if (targetID < current.Data.ItemID)
+            if (current.Data.ProductID == targetID) return current.Data;
+            if (targetID < current.Data.ProductID)
                 return SearchRecursive(current.Left, targetID);
             else
                 return SearchRecursive(current.Right, targetID);
@@ -60,11 +60,11 @@ namespace SupplyChainManagementSystem
             if (current == null)
                 return null;
 
-            if (targetID < current.Data.ItemID)
+            if (targetID < current.Data.ProductID)
             {
                 current.Left = DeleteRecursive(current.Left, targetID, ref deleted);
             }
-            else if (targetID > current.Data.ItemID)
+            else if (targetID > current.Data.ProductID)
             {
                 current.Right = DeleteRecursive(current.Right, targetID, ref deleted);
             }
@@ -82,15 +82,15 @@ namespace SupplyChainManagementSystem
                 if (current.Right == null) return current.Left;
 
                 // Case 3: Two children 
-                FurnitureItem successor = FindMin(current.Right);
+                Product successor = FindMin(current.Right);
                 current.Data = successor;
-                current.Right = DeleteRecursive(current.Right, successor.ItemID, ref deleted);
+                current.Right = DeleteRecursive(current.Right, successor.ProductID, ref deleted);
             }
 
             return current;
         }
 
-        private FurnitureItem FindMin(BSTNode current)
+        private product FindMin(BSTNode current)
         {
             while (current.Left != null)
                 current = current.Left;
@@ -102,7 +102,7 @@ namespace SupplyChainManagementSystem
         public void SearchByCategory(string category)
         {
             Console.WriteLine($"\n--- Items in Category: {category} ---");
-            Console.WriteLine("ID\t| Name                 | Stock | Price    | Zone");
+            Console.WriteLine("ID\t| ProductName                 | Stock | Price    | Zone");
             Console.WriteLine("--------------------------------------------------------------");
 
             bool found = false;
@@ -124,13 +124,35 @@ namespace SupplyChainManagementSystem
 
             if (current.Data.Category.ToLower() == category)
             {
-                Console.WriteLine($"{current.Data.ItemID}\t| {current.Data.Name,-20} | {current.Data.StockLevel,-5} | £{current.Data.Price,-7:F2} | {current.Data.WarehouseZone}");
+              Console.WriteLine($"{current.Data.ProductID}\t| {current.Data.ProductName,-20} | {current.Data.StockLevel,-5} | £{current.Data.Price,-7:F2} | {current.Data.WarehouseZone}");
                 found = true;
+                }
+
+                SearchCategoryRecursive(current.Right, category, ref found);
             }
 
-            SearchCategoryRecursive(current.Right, category, ref found);
-        }
+                public Product SearchByBarcode(string barcode)
+            {
+                return SearchBarcodeRecursive(root, barcode);
+            }
 
+
+            private Product SearchBarcodeRecursive(BSTNode current, string barcode)
+        {
+            if (current == null)
+            return null;
+
+            if (current.Data.Barcode == barcode)
+            return current.Data;
+
+            Product found =
+            SearchBarcodeRecursive(current.Left, barcode);
+
+            if (found != null)
+            return found;
+
+            return SearchBarcodeRecursive(current.Right, barcode);
+        }
         // DISPLAY ALL INVENTORY 
         // Time Complexity: O(n) — visits every node
         public void DisplayAllInventory()
@@ -152,7 +174,7 @@ namespace SupplyChainManagementSystem
             Console.WriteLine("===================================================");
             Console.ResetColor();
 
-            Console.WriteLine("\nID\t| Name                 | Stock Left | Sold | Restocked | Status       | Zone");
+            Console.WriteLine("\nID\t| ProductName                 | Stock Left | Sold | Restocked | Status       | Zone");
             Console.WriteLine("------------------------------------------------------------------------------------------------");
 
             InOrderTraversal(root);
@@ -164,7 +186,7 @@ namespace SupplyChainManagementSystem
             {
                 CalculateStats(current.Left, ref totalProducts, ref totalPhysicalStock);
                 totalProducts++;
-                totalPhysicalStock += current.Data.StockLevel;
+                totalPhysicalStock += current.Data.StockQuantity;
                 CalculateStats(current.Right, ref totalProducts, ref totalPhysicalStock);
             }
         }
@@ -175,12 +197,12 @@ namespace SupplyChainManagementSystem
             {
                 InOrderTraversal(current.Left);
 
-                string status = current.Data.StockLevel == 0 ? "OUT OF STOCK"
-                    : (current.Data.StockLevel <= 5 ? "LOW STOCK" : "IN STOCK");
-                ConsoleColor color = current.Data.StockLevel == 0 ? ConsoleColor.Red
-                    : (current.Data.StockLevel <= 5 ? ConsoleColor.Yellow : ConsoleColor.Green);
+                string status = current.Data.StockQuantity == 0 ? "OUT OF STOCK"
+                    : (current.Data.StockQuantity <= 5 ? "LOW STOCK" : "IN STOCK");
+                ConsoleColor color = current.Data.StockQuantity == 0 ? ConsoleColor.Red
+                    : (current.Data.StockQuantity <= 5 ? ConsoleColor.Yellow : ConsoleColor.Green);
 
-                Console.Write($"{current.Data.ItemID}\t| {current.Data.Name,-20} | {current.Data.StockLevel,-10} | {current.Data.QuantitySold,-4} | {current.Data.QuantityRestocked,-9} | ");
+                Console.Write($"{current.Data.ProductID}\t| {current.Data.ProductName,-20} | {current.Data.StockQuantity,-10} | {current.Data.QuantitySold,-4} | {current.Data.QuantityRestocked,-9} | ");
                 Console.ForegroundColor = color;
                 Console.Write($"{status,-12}");
                 Console.ResetColor();
@@ -195,7 +217,7 @@ namespace SupplyChainManagementSystem
         public void DisplayLowStockItems(int limit)
         {
             Console.WriteLine($"\n--- LOW STOCK REPORT (Stock ≤ {limit}) ---");
-            Console.WriteLine("ID\t| Name                 | Stock | Status");
+            Console.WriteLine("ID\t| ProductName                | Stock | Status");
             Console.WriteLine("-------------------------------------------------------");
 
             bool foundAny = false;
@@ -211,12 +233,12 @@ namespace SupplyChainManagementSystem
             {
                 CheckLowStockRecursive(current.Left, limit, ref foundAny);
 
-                if (current.Data.StockLevel <= limit)
+                if (current.Data.StockQuantity <= limit)
                 {
-                    string status = current.Data.StockLevel == 0 ? "OUT OF STOCK" : "LOW STOCK";
-                    ConsoleColor color = current.Data.StockLevel == 0 ? ConsoleColor.Red : ConsoleColor.Yellow;
+                    string status = current.Data.StockQuantity == 0 ? "OUT OF STOCK" : "LOW STOCK";
+                    ConsoleColor color = current.Data.StockQuantity == 0 ? ConsoleColor.Red : ConsoleColor.Yellow;
 
-                    Console.Write($"{current.Data.ItemID}\t| {current.Data.Name,-20} | {current.Data.StockLevel,-5} | ");
+                    Console.Write($"{current.Data.ProductID}\t| {current.Data.ProductName,-20} | {current.Data.StockQuantity,-5} | ");
                     Console.ForegroundColor = color;
                     Console.WriteLine(status);
                     Console.ResetColor();
@@ -236,7 +258,7 @@ namespace SupplyChainManagementSystem
             BSTNode current = root;
             while (current.Right != null)
                 current = current.Right;
-            return current.Data.ItemID;
+            return current.Data.ProductID;
         }
     }
 }
