@@ -1,12 +1,12 @@
-namespace SupplyChainManagementSystem
+namespace Supermarketmanagementsystem
 {
     public class BSTNode
     {
-        public FurnitureItem Data { get; set; }
+        public Product Data { get; set; }
         public BSTNode Left { get; set; }
         public BSTNode Right { get; set; }
 
-        public BSTNode(FurnitureItem item)
+        public BSTNode( Product item )
         {
             Data = item;
             Left = null;
