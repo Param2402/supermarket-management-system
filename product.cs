@@ -4,27 +4,28 @@ namespace SupplyChainManagementSystem
 {
     public class product
     {
-        public int ItemID { get; set; }
-        public string Name { get; set; }
-        public string Category { get; set; }
-        public double Price { get; set; }
-        public int StockLevel { get; set; }
-        public int QuantitySold { get; set; } = 0;
-        public int QuantityRestocked { get; set; } = 0;
-        public string Barcode { get; set; }
-        public string SupplierName { get; set; }
-        public DateTime ExpiryDate { get; set; }
+      public int ProductID { get; set; }
+      public string ProductName { get; set; }
+      public string Barcode { get; set; }
+      public string Category { get; set; }
+      public string Supplier { get; set; }
+      public decimal Price { get; set; }
+      public int StockQuantity { get; set; }
+      public DateTime ExpiryDate { get; set; }
+      public int QuantitySold { get; set; }
+      public int QuantityRestocked { get; set; }
 
-        public product(int id, string name, string category, double price, int stock, string zone)
-        {
-            ItemID = id;
-            Name = name;
-            Category = category;
-            Price = price;
-            StockLevel = stock;
-            WarehouseZone = zone;
-        }
-
+        public Product(int id, string name, string barcode, string category, string supplier, decimal price, int stock, DateTime expiryDate)
+{
+    ProductID = id;
+    ProductName = name;
+    Barcode = barcode;
+    Category = category;
+    Supplier = supplier;
+    Price = price;
+    StockQuantity = stock;
+    ExpiryDate = expiryDate;
+}
         public void DisplayItem()
         {
             Console.WriteLine($"ID: {ItemID} | {Name} ({Category}) | Price: £{Price:F2}");
