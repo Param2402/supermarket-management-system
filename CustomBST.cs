@@ -90,7 +90,7 @@ namespace Supermarketmanagementsystem
             return current;
         }
 
-        private product FindMin(BSTNode current)
+        private Product FindMin(BSTNode current)
         {
             while (current.Left != null)
                 current = current.Left;
@@ -101,7 +101,7 @@ namespace Supermarketmanagementsystem
         // Time Complexity: O(n) — must visit every node
         public void SearchByCategory(string category)
         {
-            Console.WriteLine($"\n--- Items in Category: {category} ---");
+            Console.WriteLine($"\n--- Products in Category: {category} ---");
             Console.WriteLine("ID\t| ProductName                 | Stock | Price    | Zone");
             Console.WriteLine("--------------------------------------------------------------");
 
@@ -111,7 +111,7 @@ namespace Supermarketmanagementsystem
             if (!found)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"No items found in category '{category}'.");
+                Console.WriteLine($"No Product found in category '{category}'.");
                 Console.ResetColor();
             }
         }
@@ -124,7 +124,7 @@ namespace Supermarketmanagementsystem
 
             if (current.Data.Category.ToLower() == category)
             {
-              Console.WriteLine($"{current.Data.ProductID}\t| {current.Data.ProductName,-20} | {current.Data.StockLevel,-5} | £{current.Data.Price,-7:F2} | {current.Data.WarehouseZone}");
+                Console.WriteLine($"{current.Data.ProductID}\t| {current.Data.ProductName,-20} | {current.Data.StockQuantity,-5} | £{current.Data.Price,-7:F2} | {current.Data.WarehouseZone}");
                 found = true;
                 }
 
@@ -159,7 +159,7 @@ namespace Supermarketmanagementsystem
         {
             if (root == null)
             {
-                Console.WriteLine("Inventory is currently empty.");
+                Console.WriteLine("There is no products in inventory.");
                 return;
             }
 
@@ -224,7 +224,7 @@ namespace Supermarketmanagementsystem
             CheckLowStockRecursive(root, limit, ref foundAny);
 
             if (!foundAny)
-                Console.WriteLine($"All items are sufficiently stocked. No item is at or below {limit}.");
+                Console.WriteLine($"All Products are sufficiently stocked. No item is at or below {limit}.");
         }
 
         private void CheckLowStockRecursive(BSTNode current, int limit, ref bool foundAny)
@@ -252,7 +252,7 @@ namespace Supermarketmanagementsystem
 
         // GET MAX ID 
         // Time Complexity: O(h) — traverses right spine only
-        public int GetMaxID()
+        public int GetMaxProductID()
         {
             if (root == null) return 0;
             BSTNode current = root;
