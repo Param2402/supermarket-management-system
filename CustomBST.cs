@@ -111,7 +111,7 @@ namespace Supermarketmanagementsystem
             if (!found)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"No Product found in category '{category}'.");
+                Console.WriteLine($"No products found in category '{category}'.");
                 Console.ResetColor();
             }
         }
@@ -138,7 +138,7 @@ namespace Supermarketmanagementsystem
 
 
             private Product SearchBarcodeRecursive(BSTNode current, string barcode)
-        {
+            {
             if (current == null)
             return null;
 
@@ -152,14 +152,14 @@ namespace Supermarketmanagementsystem
             return found;
 
             return SearchBarcodeRecursive(current.Right, barcode);
-        }
+            }
         // DISPLAY ALL INVENTORY 
         // Time Complexity: O(n) — visits every node
         public void DisplayAllInventory()
         {
             if (root == null)
             {
-                Console.WriteLine("There is no products in inventory.");
+                Console.WriteLine("No products available in inventory.");
                 return;
             }
 
@@ -224,7 +224,7 @@ namespace Supermarketmanagementsystem
             CheckLowStockRecursive(root, limit, ref foundAny);
 
             if (!foundAny)
-                Console.WriteLine($"All Products are sufficiently stocked. No item is at or below {limit}.");
+                Console.WriteLine($"All products are sufficiently stocked. No product is at or below {limit}.");
         }
 
         private void CheckLowStockRecursive(BSTNode current, int limit, ref bool foundAny)
