@@ -16,7 +16,7 @@ namespace Supermarketmanagementsystem
       public int QuantityRestocked { get; set; }
       public string WarehouseZone { get; set; }
 
-      public Product(int id, string name, string barcode, string category, string supplier, decimal price, int stock, DateTime expiryDate, warehouseZone)
+      public Product(int id, string name, string barcode, string category, string supplier, decimal price, int stock, DateTime expiryDate, string warehouseZone)
     {
         ProductID = id;
         ProductName = name;
