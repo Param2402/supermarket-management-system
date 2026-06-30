@@ -38,7 +38,7 @@ namespace Supermarketmanagementsystem
         Console.WriteLine($"Supplier: {Supplier}");
         Console.WriteLine($"Price: £{Price:F2}");
         Console.WriteLine($"Expiry Date: {ExpiryDate:dd/MM/yyyy}");
-
+        Console.WriteLine($"Warehouse Zone: {WarehouseZone}");
         string status =
         StockQuantity == 0 ? "OUT OF STOCK" :
         StockQuantity <= 5 ? "LOW STOCK" :
