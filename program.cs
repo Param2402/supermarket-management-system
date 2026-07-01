@@ -1,12 +1,12 @@
 using System;
 using System.Data.SqlClient;
 
-namespace SupplyChainManagementSystem
+namespace Supermarketmanagementsystem
 {
     class Program
     {
         static string connectionString =
-    @"Server=localhost\SQLEXPRESS;Database=SupplyChainDb;Trusted_Connection=True;TrustServerCertificate=True;";
+    @"Server=localhost\SQLEXPRESS;Database=SupermarketDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
 
         static void Main(string[] args)
@@ -25,9 +25,9 @@ namespace SupplyChainManagementSystem
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sqlQuery = @"SELECT ItemID, Name, Category, Price, StockLevel, 
+                    string sqlQuery = @"SELECT ProductID, ProductName, Category, Barcode, Supplier, Price, StockQuantity, 
                                                WarehouseZone, QuantitySold, QuantityRestocked 
-                                        FROM Furniture";
+                                        FROM Products";
 
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     using (SqlDataReader reader = command.ExecuteReader())
