@@ -15,7 +15,7 @@ namespace Supermarketmanagementsystem
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("===========================================");
-            Console.WriteLine("   APES SUPPLY CHAIN MANAGEMENT SYSTEM  ");
+            Console.WriteLine("   SUPERMARKET INVENTORY MANAGEMENT SYSTEM  ");
             Console.WriteLine("===========================================\n");
             Console.ResetColor();
 
@@ -37,16 +37,29 @@ namespace Supermarketmanagementsystem
                             int id = reader.GetInt32(0);
                             string name = reader.GetString(1);
                             string category = reader.GetString(2);
-                            double price = (double)reader.GetDecimal(3);
-                            int stock = reader.GetInt32(4);
-                            string zone = reader.GetString(5);
-                            int sold = reader.GetInt32(6);
-                            int restocked = reader.GetInt32(7);
+                            string barcode = reader.GetString(3);
+                            string supplier = reader.GetString(4);
+                            decimal price = reader.GetDecimal(5);
+                            int stock = reader.GetInt32(6);
+                            string zone = reader.GetString(7);
+                            int sold = reader.GetInt32(8);
+                            int restocked = reader.GetInt32(9);
 
-                            FurnitureItem fi = new FurnitureItem(id, name, category, price, stock, zone);
-                            fi.QuantitySold = sold;
-                            fi.QuantityRestocked = restocked;
-                            inventoryTree.Insert(fi);
+                            Product product = new Product(
+                            id,
+                            name,
+                            barcode,
+                            category,
+                            supplier,
+                            price,
+                            stock,
+                            DateTime.Now.AddMonths(6),
+                            zone);
+
+                            product.QuantitySold = sold;
+                            product.QuantityRestocked = restocked;
+                            
+                            inventoryTree.Insert(product);
                         }
                     }
                 }
@@ -70,7 +83,7 @@ namespace Supermarketmanagementsystem
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("\n=============== MAIN MENU ===============");
-                Console.WriteLine("1. Search Item by ID");
+                Console.WriteLine("1. Search Product by ID");
                 Console.WriteLine("2. Search Items by Category");
                 Console.WriteLine("3. View Full Inventory Report");
                 Console.WriteLine("4. Add New Item");
@@ -139,26 +152,26 @@ namespace Supermarketmanagementsystem
             int searchId;
             while (true)
             {
-                Console.Write("\nEnter Item ID to search: ");
+                Console.Write("\nEnter Product ID to search: ");
                 if (int.TryParse(Console.ReadLine(), out searchId)) break;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a numeric Item ID.");
                 Console.ResetColor();
             }
 
-            FurnitureItem foundItem = inventoryTree.Search(searchId);
+            Product foundItem = inventoryTree.Search(searchId);
 
             if (foundItem != null)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\nItem found:");
+                Console.WriteLine("\nProduct found:");
                 Console.ResetColor();
                 foundItem.DisplayItem();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\nNo item found with ID '{searchId}'.");
+                Console.WriteLine($"\nNo product found with ID '{searchId}'.");
                 Console.ResetColor();
             }
         }
@@ -166,7 +179,7 @@ namespace Supermarketmanagementsystem
         //  function Search by Category
         static void SearchByCategoryMenu(CustomBST inventoryTree)
         {
-            Console.Write("\nEnter category to search (Tables, Seating, Beds, Storage): ");
+           Console.Write("\nEnter category to search: ");
             string category = Console.ReadLine()?.Trim();
 
             if (string.IsNullOrEmpty(category))
